@@ -16,7 +16,7 @@ Financial controls and git workflows are structurally identical:
 | Control documentation | `RULES.md` |
 | Point-in-time snapshot | `git tag v2025-01-close` |
 
-This isn't an analogy. It's an isomorphism. Which means an agent operating inside a git repo doesn't just *comply with* financial controls — it *is* the control framework, by construction. Compliance overhead drops to zero because it's a property of the architecture.
+An agent operating inside a git repo doesn't just *comply with* financial controls — it *is* the control framework, by construction. Compliance overhead drops to zero because it's a property of the architecture.
 
 ---
 
