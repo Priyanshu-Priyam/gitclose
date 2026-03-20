@@ -1,0 +1,36 @@
+name: create_exception
+description: "Creates a reconciliation exception record for tracking and workflow assignment."
+parameters:
+  - name: exception_type
+    type: string
+    required: true
+    description: "One of: UNMATCHED, CUTOFF, THRESHOLD, SYSTEMIC, OTHER."
+  - name: amount
+    type: number
+    required: true
+    description: "Monetary amount associated with the exception."
+  - name: description
+    type: string
+    required: true
+    description: "Narrative explanation of the exception."
+  - name: counterparty
+    type: string
+    required: true
+    description: "Counterparty name or identifier where applicable."
+  - name: bank_ref
+    type: string
+    required: true
+    description: "Bank reference, trace id, or statement line reference."
+  - name: assigned_to
+    type: string
+    required: false
+    description: "Optional user or team id for ownership."
+returns:
+  type: object
+  properties:
+    - name: exception_id
+      type: string
+      description: "System-generated identifier for the exception."
+    - name: status
+      type: string
+      description: "Initial workflow status (e.g. OPEN, PENDING_REVIEW)."

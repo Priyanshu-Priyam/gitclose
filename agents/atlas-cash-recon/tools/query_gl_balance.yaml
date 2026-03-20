@@ -1,0 +1,28 @@
+name: query_gl_balance
+description: "Queries general ledger balance roll-forward for a specific account and period."
+parameters:
+  - name: account_id
+    type: string
+    required: true
+    description: "GL account identifier."
+  - name: period
+    type: string
+    required: true
+    description: "Period in YYYY-MM format."
+  - name: include_opening
+    type: boolean
+    required: false
+    default: true
+    description: "When true, include opening balance in the response; when false, omit or zero opening context per implementation."
+returns:
+  type: object
+  properties:
+    - name: opening_balance
+      type: number
+      description: "GL balance at the start of the period (when include_opening is true)."
+    - name: net_movement
+      type: number
+      description: "Net debit/credit movement for the account in the period."
+    - name: closing_balance
+      type: number
+      description: "GL balance at the end of the period."

@@ -1,0 +1,12 @@
+[CONTENT SUMMARY — Excel workbook: AP Sub-Ledger vs GL, January 2025 — DRAFT]
+
+GL AP control account (2100): closing balance $2,184,920.00
+AP aging export (as at 31 Jan 2025, run 3 Feb): sub-total $2,190,120.00
+
+Difference: $5,200.00 — flagged on tab "Exceptions"
+
+Exception detail: Invoice ARUP-INV-44921 — service period Dec 2024, supplier Arup Pty Ltd, amount $5,200.00. Posted in sub-ledger with invoice date 2 Feb 2025 (system default when AP received scan) but James notes "goods/services relate to January — cutoff question."
+
+Comment row: "DRAFT — do not share with Arup until Sarah agrees accrual vs reclass."
+
+Tab "Supporting": screenshot of AP inbox timestamp for Arup PDF (received 1 Feb 17:14).

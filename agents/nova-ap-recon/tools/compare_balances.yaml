@@ -1,0 +1,74 @@
+name: compare_balances
+description: >
+  Computes the mathematical variance between the AP sub-ledger control total and the GL
+  Trade Payables balance for the same entity and period. Optionally classifies variance
+  magnitude against Nova escalation thresholds and returns a structured summary for the
+  reconciliation narrative.
+
+parameters:
+  - name: ap_total
+    type: number
+    required: true
+    description: >
+      Control total from AP (typically sum of open invoice functional amounts from
+      query_ap_subledger.control_total_functional). Must be exact to the cent.
+
+  - name: gl_balance
+    type: number
+    required: true
+    description: >
+      GL closing balance for account 2000-001 (or equivalent) from query_gl_balance.closing_balance,
+      on a basis consistent with the AP population (e.g. end-of-period).
+
+  - name: entity_id
+    type: string
+    required: false
+    description: Optional echo for audit trail in output objects.
+
+  - name: period
+    type: string
+    required: false
+    description: Optional echo for audit trail in output objects.
+
+  - name: variance_definition
+    type: string
+    required: false
+    default: AP_MINUS_GL
+    description: >
+      AP_MINUS_GL (default) = ap_total − gl_balance. GL_MINUS_AP = gl_balance − ap_total.
+      Use one convention per workpaper and do not mix.
+
+returns:
+  type: object
+  properties:
+    - name: ap_total
+      type: number
+      description: Echo of input AP total.
+
+    - name: gl_balance
+      type: number
+      description: Echo of input GL balance.
+
+    - name: variance
+      type: number
+      description: Signed difference per variance_definition.
+
+    - name: variance_abs
+      type: number
+      description: Absolute value of variance for threshold checks.
+
+    - name: is_balanced
+      type: boolean
+      description: True only when variance is exactly zero (to the cent).
+
+    - name: exceeds_materiality_note
+      type: string
+      description: >
+        When variance_abs exceeds policy thresholds (e.g. AUD 50,000 aggregate path),
+        contains a fixed reminder to escalate entire recon; empty when below advisory levels.
+
+    - name: interpretation
+      type: string
+      description: >
+        Short machine-generated hint (e.g. "AP > GL — investigate unposted AP or GL accruals")
+        for Nova narrative — not a substitute for invoice-level tracing.

@@ -1,0 +1,12 @@
+[CONTENT SUMMARY — Excel workbook: Proposed journal entries — January 2025 close]
+
+Tab "Summary": List of JEs for month-end with columns: Ref, Description, Dr/Cr accounts, Amount, Status, Approver.
+
+Notable rows:
+- ACCR-JAN-015 | Accrue Arup Jan survey services | Dr 6200 Professional fees $5,200 | Cr 2100 AP $5,200 | Status: Posted 6 Feb | Sarah
+- ADJ-JAN-008 | Bank fee correction (Westpac) | (immaterial — $42) | Posted
+- REV-JAN-003 | Payroll accrual reversal (standard) | In progress
+
+Notes row: "James: ensure ACCR-JAN-015 reverses when Arup INV-44921 matched in Feb."
+
+Protected cells on amounts; password hint in sticky note on James’s monitor (not in file).

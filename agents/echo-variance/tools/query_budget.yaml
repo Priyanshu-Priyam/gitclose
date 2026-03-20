@@ -1,0 +1,76 @@
+name: query_budget
+description: >
+  Retrieves approved budget P&L lines for the same entity and period as actuals, for a specified
+  budget version. Used for budget-vs-actual variance computation and management commentary.
+
+parameters:
+  - name: entity_id
+    type: string
+    required: true
+    description: >
+      Reporting entity identifier; must match the entity_id used in query_actuals for
+      like-for-like comparison.
+
+  - name: period
+    type: string
+    required: true
+    description: >
+      Reporting period key aligned to actuals (e.g. YYYY-MM or fiscal period code).
+
+  - name: version
+    type: string
+    required: true
+    description: >
+      Locked budget version label or id for the fiscal year (e.g. FY25-BASE-v3, BOARD-APPROVED-2024-11).
+      Must be the version referenced on the close task or the active official version if unspecified there.
+
+returns:
+  type: object
+  properties:
+    - name: entity_id
+      type: string
+      description: Echoed entity identifier.
+
+    - name: period
+      type: string
+      description: Echoed reporting period.
+
+    - name: version
+      type: string
+      description: Echoed budget version.
+
+    - name: currency
+      type: string
+      description: Budget currency (should match actuals currency).
+
+    - name: lines
+      type: array
+      description: Budget P&L lines at account granularity matching actuals keys where possible.
+      items:
+        type: object
+        properties:
+          - name: account_id
+            type: string
+            description: Chart of accounts code aligned to actuals.
+          - name: account_name
+            type: string
+            description: Budget line description (may differ slightly from COA; prefer COA mapping table).
+          - name: category
+            type: string
+            description: revenue, cogs, opex, other_income, tax, etc.
+          - name: amount_budget
+            type: number
+            description: >
+              Budget amount in management presentation convention (revenue positive, expenses positive).
+          - name: amount_driver_detail
+            type: object
+            required: false
+            description: >
+              Optional structured drivers (headcount, rate, volume) when available from FP&A model exports.
+
+    - name: metadata
+      type: object
+      required: false
+      description: >
+        Version approval date, approver, scenario flags (base vs stretch), and FX assumptions
+        when budgets are translated.

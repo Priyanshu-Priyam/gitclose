@@ -1,0 +1,9 @@
+[CONTENT SUMMARY — Excel workbook: Westpac Operating Account Reconciliation, January 2025 — duplicate "FINAL" version]
+
+Updated after Sarah found the Telstra credit explanation (see Unidentified Credits folder). The $5,650 is now described as a reconciling item with reference INV-TEL-2024-1188 and expected clearance to utilities expense / AP depending on original booking.
+
+Outstanding queries tab: Telstra row marked RESOLVED — documentation saved in Unidentified Credits.
+
+IMPORTANT NOTE FOR AUDIT TRAIL: v3 FINAL was already submitted to Sarah and circulated to James's manager on 5 Feb before this version was created. This copy was saved when Windows prompted "Westpac Operating Recon Jan 2025 v3 FINAL.xlsx already exists" and James clicked Save As, producing "v3 FINAL (2)". Both filenames appear in recent files and email attachments — team is using (2) for the board pack but the earlier FINAL is still in some inboxes.
+
+Saved: 6 Feb 2025 09:17.

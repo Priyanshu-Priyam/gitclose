@@ -1,0 +1,64 @@
+name: generate_commentary
+description: >
+  Renders management-ready variance commentary from structured variance records and curated
+  memory context. Output is Markdown (tables + narrative) with mandatory inline source tags
+  for pre-output validation. Does not invent drivers — memory_context should only contain excerpts
+  Echo is entitled to cite.
+
+parameters:
+  - name: variances
+    type: array
+    required: true
+    description: >
+      Enriched variance objects from compute_variances (or equivalent), including material flags,
+      favorable/unfavorable classification, and optional YoY fields.
+
+  - name: memory_context
+    type: array
+    required: true
+    description: >
+      Structured snippets Echo selected from MEMORY.md or other approved knowledge stores.
+      Each item should include excerpt text, recorded date, and tags (structural, one_off, etc.).
+
+  - name: format
+    type: string
+    required: true
+    description: >
+      Output template key, e.g. management_markdown_v1 (executive summary + summary table +
+      material sections + optional appendix). Additional formats may be registered by the runtime.
+
+returns:
+  type: object
+  properties:
+    - name: markdown
+      type: string
+      description: >
+        Full commentary document in Markdown. Must use positive presentation for revenue amounts,
+        include tables for summary P&L, and embed [source:memory|data|calculation|investigation]
+        tags for each explained material variance.
+
+    - name: artifacts
+      type: array
+      required: false
+      description: >
+        Optional companion objects (CSV table data, JSON for slides) when the runtime supports
+        multi-artifact commits.
+
+    - name: meta
+      type: object
+      properties:
+        - name: entity_id
+          type: string
+          description: Entity the commentary pertains to.
+        - name: period
+          type: string
+          description: Reporting period.
+        - name: budget_version
+          type: string
+          description: Budget version used for comparisons.
+        - name: material_count
+          type: integer
+          description: Count of variances flagged for commentary.
+        - name: investigation_count
+          type: integer
+          description: Count of variances explicitly marked requires investigation.

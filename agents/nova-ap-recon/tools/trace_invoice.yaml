@@ -1,0 +1,123 @@
+name: trace_invoice
+description: >
+  Traces a single AP invoice reference to general ledger postings for Meridian Engineering.
+  Returns all GL lines tied by reference/narration keys, posting dates, amounts, and journal
+  metadata. Used to enforce reference-based matching and to detect cutoff and duplicate postings.
+
+parameters:
+  - name: invoice_ref
+    type: string
+    required: true
+    description: >
+      Invoice reference from the AP sub-ledger (same field as query_ap_subledger.invoices[].invoice_ref).
+      Must be supplied exactly as stored — normalization is performed by the integration layer.
+
+  - name: entity_id
+    type: string
+    required: true
+    description: Legal entity scope for GL and AP linkage.
+
+  - name: period
+    type: string
+    required: true
+    description: >
+      Primary AP accounting period (YYYY-MM). The tool may also return GL lines posted in
+      adjacent periods when the integration performs cross-period trace for cutoff analysis;
+      each line includes its own gl_period.
+
+  - name: include_adjacent_periods
+    type: boolean
+    required: false
+    default: true
+    description: >
+      When true, include GL hits posted in immediately prior/next accounting period to surface
+      cutoff slips while keeping entity and reference constraints.
+
+  - name: account_filter
+    type: string
+    required: false
+    default: "2000-001"
+    description: >
+      Optional GL account filter; defaults to Trade Payables for standard recon. Use only when
+      task explicitly investigates reclasses touching other accounts.
+
+returns:
+  type: object
+  properties:
+    - name: invoice_ref
+      type: string
+      description: Echo of traced reference.
+
+    - name: entity_id
+      type: string
+      description: Echo of entity.
+
+    - name: ap_snapshot
+      type: object
+      description: AP-side facts as seen by the tracer (read-only).
+      properties:
+        - name: vendor_name
+          type: string
+          description: Vendor on the AP document.
+        - name: amount_functional
+          type: number
+          description: Functional open or booked amount for comparison to GL.
+        - name: ap_entry_date
+          type: string
+          description: AP booking date (ISO-8601).
+        - name: ap_period
+          type: string
+          description: Derived AP accounting period YYYY-MM.
+
+    - name: gl_matches
+      type: array
+      description: >
+        GL lines that reference the invoice (may be empty, one line, or multiple for duplicate detection).
+      items:
+        type: object
+        properties:
+          - name: journal_id
+            type: string
+            description: ERP journal or batch identifier.
+
+          - name: line_id
+            type: string
+            description: Unique GL line surrogate key.
+
+          - name: gl_posting_date
+            type: string
+            description: Effective posting date (ISO-8601).
+
+          - name: gl_period
+            type: string
+            description: GL accounting period YYYY-MM.
+
+          - name: amount
+            type: number
+            description: Line amount in functional currency (sign per natural account convention).
+
+          - name: debit_credit
+            type: string
+            description: D or C on the Trade Payables line from ERP perspective.
+
+          - name: gl_reference
+            type: string
+            description: Sub-ledger reference captured on GL (should match invoice_ref when clean).
+
+          - name: narration
+            type: string
+            description: Free-text GL description for audit.
+
+          - name: source_system
+            type: string
+            description: Origin label (e.g. AP_SUBLEDGER, MANUAL_JE, INTERFACE).
+
+    - name: match_classification
+      type: string
+      description: >
+        Suggested classification from deterministic rules: MATCHED, CUTOFF, UNMATCHED_AP,
+        POTENTIAL_DUPLICATE, REVIEW_REQUIRED. Nova must still apply SOUL/RULES reasoning.
+
+    - name: trace_notes
+      type: string
+      description: Integration warnings (e.g. truncated results, stale cache).

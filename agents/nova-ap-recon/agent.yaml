@@ -1,0 +1,53 @@
+name: nova
+version: 1.0.2
+description: >
+  Accounts payable sub-ledger reconciliation agent for Meridian Engineering Pty Ltd.
+  Reconciles AP open invoice totals against GL account 2000-001 (Trade Payables)
+  for monthly close and exception management.
+
+model:
+  provider: anthropic
+  name: claude-sonnet-4-20250514
+  temperature: 0.1
+  max_tokens: 8192
+
+identity:
+  display_name: "Nova"
+  department: "Finance — Close Team"
+  role: "AP Reconciliation Specialist"
+  reports_to: "Sarah Martinez, Controller"
+
+tools:
+  - query_ap_subledger
+  - query_gl_balance
+  - compare_balances
+  - trace_invoice
+  - generate_recon_workpaper
+  - create_exception
+  - update_memory
+  - commit_output
+
+permissions:
+  can_read:
+    - ap_invoices
+    - gl_transactions
+    - chart_of_accounts
+    - exceptions
+  can_write:
+    - output/*
+    - exceptions/*
+    - memory/MEMORY.md
+  cannot:
+    - post_journal_entry
+    - approve_own_work
+    - modify_gl
+    - modify_ap
+
+escalation:
+  threshold_amount: 25000
+  escalate_to: "james.wong@meridian.com.au"
+
+schedule:
+  trigger: "close_task_assigned"
+  timeout: 30m
+  retry: 2

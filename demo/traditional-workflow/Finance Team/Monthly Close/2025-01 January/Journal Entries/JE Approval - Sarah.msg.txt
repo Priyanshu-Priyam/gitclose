@@ -1,0 +1,14 @@
+[CONTENT SUMMARY — Outlook message]
+
+From: Sarah Mitchell <s.mitchell@meridianengineering.com.au>
+To: James Chen <j.chen@meridianengineering.com.au>
+Sent: Thursday, 6 February 2025 14:05 (AEDT)
+Subject: JE Approval — Jan close
+
+James,
+
+Approved ACCR-JAN-015 and ADJ-JAN-008 as per your Proposed JEs workbook (saved 6 Feb 13:58 copy). Do not post REV-JAN-003 until payroll confirms final super run.
+
+Save the posted export back into Journal Entries folder with date in the filename so we’re not hunting later.
+
+Sarah

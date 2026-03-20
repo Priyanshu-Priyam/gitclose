@@ -1,0 +1,21 @@
+[CONTENT SUMMARY — Excel workbook: Monthly Close Checklist — January 2025]
+
+Column A: Task | Column B: Owner | Column C: Due | Column D: Status
+
+1. Bank reconciliations complete (all operating accounts) | James | 5 Feb | ☑ Done (6 Feb — late; note on file)
+2. AP/AR sub-ledger tie-out | James / Sarah | 6 Feb | ☑ Done
+3. Fixed asset roll-forward | James | 4 Feb | ☑ Done
+4. Payroll & super reconciled | Payroll | 5 Feb | ☑ Done
+5. Accruals & prepayments reviewed | Sarah | 6 Feb | ☑ Done
+6. Variance commentary drafted | James | 5 Feb | ☑ Done (FINAL 6 Feb)
+7. Management pack first draft | James | 6 Feb | ☐ In progress
+8. FC review & sign-off | Sarah | 7 Feb | ☐ Pending
+9. Board pack circulation | David (CFO) | 10 Feb | ☐ Pending
+
+Tab "Issues log":
+- "Two versions of Westpac recon FINAL in circulation — align on v3 FINAL (2)" | Open | James
+- "Telstra credit — resolved 5 Feb" | Closed | Sarah
+
+Conditional formatting: overdue rows shaded red; two rows manually highlighted yellow "follow up at stand-up."
+
+Last saved: James Chen, 6 Feb 2025 15:33.

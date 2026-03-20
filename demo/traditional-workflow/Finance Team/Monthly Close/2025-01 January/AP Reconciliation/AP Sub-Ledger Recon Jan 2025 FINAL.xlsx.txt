@@ -1,0 +1,9 @@
+[CONTENT SUMMARY — Excel workbook: AP Sub-Ledger vs GL, January 2025 — FINAL]
+
+GL AP control (2100) and sub-ledger tied out to $2,184,920.00 after adjusting entry ACCR-JAN-015 (accrual for Arup $5,200 — Jan expense, Feb invoice). Exception tab now shows "Resolved — accrual posted 6 Feb, to reverse on invoice match."
+
+Reconciliation signed off in cell comment: Sarah Mitchell, 6 Feb 2025.
+
+Note to file: Original $5,200 variance was purely timing (Arup invoice booking date vs service period); see email "Arup invoice timing query" in Cutoff Issues folder.
+
+Version saved over DRAFT filename in Sarah’s folder; James has a local copy still named DRAFT on his laptop (known issue).

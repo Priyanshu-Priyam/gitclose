@@ -1,0 +1,27 @@
+name: fetch_bank_statement
+description: "Fetches bank statement data for a given entity, GL-linked account, and calendar period."
+parameters:
+  - name: entity_id
+    type: string
+    required: true
+    description: "Legal entity or business unit identifier."
+  - name: gl_account_id
+    type: string
+    required: true
+    description: "General ledger cash or bank account identifier linked to the statement."
+  - name: period
+    type: string
+    required: true
+    description: "Statement period in YYYY-MM format."
+returns:
+  type: object
+  properties:
+    - name: opening_balance
+      type: number
+      description: "Statement opening balance for the period."
+    - name: closing_balance
+      type: number
+      description: "Statement closing balance for the period."
+    - name: transactions
+      type: array
+      description: "Array of bank-side transaction objects (e.g. date, amount, description, reference)."

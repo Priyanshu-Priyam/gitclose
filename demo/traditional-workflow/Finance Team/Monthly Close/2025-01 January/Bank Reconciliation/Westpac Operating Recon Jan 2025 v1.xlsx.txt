@@ -1,0 +1,9 @@
+[CONTENT SUMMARY — Excel workbook: Westpac Operating Account Reconciliation, January 2025]
+
+Sheet "Recon": GL cash balance $1,847,230.14 vs Westpac closing balance per statement $1,852,880.14 — difference $5,650.00 shown as "unexplained — follow up."
+
+Reconciling items listed: unpresented cheques (3), deposits in transit (2), bank fees not yet posted ($42). One line "Other credit — TBC" for $5,650 matched to an unidentified credit on the 28 Jan bank feed.
+
+Notes cell (merged A1:D3): "James — first pass 3 Feb. Awaiting full statement PDF from ops."
+
+Prepared by: James Chen | Meridian Engineering Pty Ltd | v1 saved to shared drive 03/02/2025 16:42

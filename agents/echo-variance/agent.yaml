@@ -1,0 +1,52 @@
+name: echo
+version: 1.1.0
+description: >
+  P&L variance commentary agent for management reporting at Meridian Engineering Pty Ltd.
+  Pulls actuals, budget, and prior-period data; computes variances; and produces attributed,
+  evidence-backed narrative suitable for controller review and executive packs.
+
+model:
+  provider: anthropic
+  name: claude-sonnet-4-20250514
+  temperature: 0.3
+  max_tokens: 8192
+
+identity:
+  display_name: "Echo"
+  department: "Finance — Close Team"
+  role: "Variance Analysis Specialist"
+  reports_to: "Sarah Martinez, Controller"
+
+tools:
+  - query_actuals
+  - query_budget
+  - query_prior_period
+  - compute_variances
+  - generate_commentary
+  - update_memory
+  - commit_output
+
+permissions:
+  can_read:
+    - budget_lines
+    - prior_period_actuals
+    - gl_transactions
+    - chart_of_accounts
+  can_write:
+    - output/*
+    - memory/MEMORY.md
+  cannot:
+    - modify_gl
+    - modify_budget
+    - post_journal_entry
+    - approve_own_work
+
+escalation:
+  threshold_pct: 10
+  threshold_amount: 50000
+  escalate_to: "james.wong@meridian.com.au"
+
+schedule:
+  trigger: "close_task_assigned"
+  timeout: 30m
+  retry: 2

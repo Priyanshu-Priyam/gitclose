@@ -1,0 +1,14 @@
+[CONTENT SUMMARY — Outlook message]
+
+From: James Chen <j.chen@meridianengineering.com.au>
+To: Sarah Mitchell <s.mitchell@meridianengineering.com.au>
+Sent: Thursday, 6 February 2025 10:22 (AEDT)
+Subject: Arup invoice timing query
+
+Sarah,
+
+Arup INV-44921 for $5,200 hit AP with invoice date 2 Feb but the cover email says January site survey. Sub-ledger vs GL is out by $5,200 until we either accrue Jan or ask Arup to re-date (they won’t).
+
+Recommend accrual JE — I’ve drafted in Proposed JEs sheet. OK to post?
+
+James

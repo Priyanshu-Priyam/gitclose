@@ -1,0 +1,21 @@
+name: query_gl_transactions
+description: "Lists general ledger transactions for an account and period, optionally filtered by source."
+parameters:
+  - name: account_id
+    type: string
+    required: true
+    description: "GL account identifier."
+  - name: period
+    type: string
+    required: true
+    description: "Period in YYYY-MM format."
+  - name: source_filter
+    type: string
+    required: false
+    description: "Optional subsystem or document source code to restrict results (e.g. AP, AR, payroll)."
+returns:
+  type: object
+  properties:
+    - name: transactions
+      type: array
+      description: "Array of GL transaction objects (e.g. journal id, line id, date, amount, description, source)."

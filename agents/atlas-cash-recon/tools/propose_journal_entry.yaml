@@ -1,0 +1,24 @@
+name: propose_journal_entry
+description: "Proposes a balanced journal entry for reviewer approval, with optional link to institutional memory."
+parameters:
+  - name: entries
+    type: array
+    required: true
+    description: "Array of line objects: each with account_id (string), amount (number, signed debit positive or per convention), description (string)."
+  - name: justification
+    type: string
+    required: true
+    description: "Business and accounting rationale for the proposed entry."
+  - name: memory_reference
+    type: string
+    required: false
+    description: "Optional citation or id linking to prior policy, memo, or knowledge base entry."
+returns:
+  type: object
+  properties:
+    - name: je_id
+      type: string
+      description: "Identifier of the proposed journal entry (draft or pending approval)."
+    - name: csv_output
+      type: string
+      description: "Journal lines encoded as CSV for export or downstream import."

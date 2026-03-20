@@ -1,0 +1,19 @@
+[CONTENT SUMMARY — Outlook message]
+
+From: James Chen <j.chen@meridianengineering.com.au>
+To: Sarah Mitchell <s.mitchell@meridianengineering.com.au>
+Sent: Tuesday, 4 February 2025 17:08 (AEDT)
+Subject: Telstra credit query — Sarah to investigate
+
+Hi Sarah,
+
+On the Jan Westpac operating recon we’ve still got a $5,650 credit dated 28 Jan, narrative “TELSTRA PTY LTD / REFUND ADJ”. I can’t match it to AP or a JE in Xero/MYOB export.
+
+Can you check whether this is a duplicate payment refund or a billing correction from the Telstra enterprise account? I need something I can file against the recon before we lock Jan.
+
+I’ve saved the bank PDF in Bank Reconciliation folder if you need the exact line.
+
+Thanks,
+James
+
+Attachments: (none in this copy — user referenced shared path in body)

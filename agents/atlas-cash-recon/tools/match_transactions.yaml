@@ -1,0 +1,30 @@
+name: match_transactions
+description: "Matches bank transactions to GL entries using configurable date window and fuzzy amount/description thresholds."
+parameters:
+  - name: bank_transactions
+    type: array
+    required: true
+    description: "Array of bank-side transaction objects to match."
+  - name: gl_transactions
+    type: array
+    required: true
+    description: "Array of GL transaction objects to match against."
+  - name: matching_rules
+    type: object
+    required: true
+    description: "Rules object with date_window_days (integer, max days between bank and GL dates) and fuzzy_threshold_pct (number, 0–100 similarity threshold for text/amount matching)."
+returns:
+  type: object
+  properties:
+    - name: matched_pairs
+      type: array
+      description: "Array of { bank_transaction, gl_transaction, confidence } or equivalent matched pairs."
+    - name: timing_differences
+      type: array
+      description: "Matched or near-matched items with material posting date vs value date differences."
+    - name: unmatched_bank
+      type: array
+      description: "Bank transactions with no GL match under the given rules."
+    - name: unmatched_gl
+      type: array
+      description: "GL transactions with no bank match under the given rules."

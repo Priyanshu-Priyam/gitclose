@@ -1,0 +1,116 @@
+name: query_ap_subledger
+description: >
+  Retrieves accounts payable sub-ledger lines for Meridian Engineering Pty Ltd for a given
+  entity and accounting period. Returns open (or filtered) vendor invoices with amounts,
+  dates, and reference fields required for GL trace and reconciliation tie-out.
+
+parameters:
+  - name: entity_id
+    type: string
+    required: true
+    description: >
+      Legal entity or ERP company code (e.g. MEPL-01). Must match the scope of GL account 2000-001.
+
+  - name: period
+    type: string
+    required: true
+    description: >
+      Accounting period in YYYY-MM format (functional calendar used for month-end close).
+
+  - name: status_filter
+    type: string
+    required: false
+    default: OPEN
+    description: >
+      Sub-ledger status cohort. Typical values: OPEN (unpaid / outstanding payables),
+      ALL_POSTED, PENDING_APPROVAL, ON_HOLD. Defaults to OPEN for standard month-end recon.
+
+  - name: vendor_filter
+    type: string
+    required: false
+    description: >
+      Optional vendor master id or normalized vendor name fragment to restrict the population
+      (e.g. VEND-ARUP-001 or "Arup"). When omitted, all vendors in scope for the entity/period apply.
+
+returns:
+  type: object
+  properties:
+    - name: entity_id
+      type: string
+      description: Echo of the queried entity.
+
+    - name: period
+      type: string
+      description: Echo of the queried period.
+
+    - name: as_of_timestamp
+      type: string
+      description: ISO-8601 snapshot time of the extract (source system clock).
+
+    - name: invoices
+      type: array
+      description: List of AP documents matching filters.
+      items:
+        type: object
+        properties:
+          - name: invoice_ref
+            type: string
+            description: >
+              Canonical AP invoice reference used for GL matching (e.g. MEPL-AP-2025-009881
+              or third-party invoice number as stored in AP).
+
+          - name: vendor_id
+            type: string
+            description: Vendor master identifier.
+
+          - name: vendor_name
+            type: string
+            description: Vendor legal or trading name.
+
+          - name: invoice_date
+            type: string
+            description: Vendor invoice date (ISO-8601 date).
+
+          - name: ap_entry_date
+            type: string
+            description: Date the invoice was booked / entered in AP (ISO-8601 date).
+
+          - name: due_date
+            type: string
+            description: Contractual due date based on terms (ISO-8601 date).
+
+          - name: currency
+            type: string
+            description: Document currency code (ISO 4217).
+
+          - name: amount_functional
+            type: number
+            description: Open balance in entity functional currency (AUD for MEPL), exact to cents.
+
+          - name: amount_document
+            type: number
+            description: Open balance in document currency when foreign currency applies.
+
+          - name: status
+            type: string
+            description: AP workflow status for the line.
+
+          - name: po_reference
+            type: string
+            description: Purchase order reference when linked.
+
+          - name: project_code
+            type: string
+            description: Job or project dimension when costed to projects.
+
+    - name: control_total_functional
+      type: number
+      description: Sum of amount_functional for returned rows — use for compare_balances input.
+
+    - name: row_count
+      type: integer
+      description: Count of invoices returned.
+
+    - name: query_notes
+      type: string
+      description: Optional warnings (e.g. partial extract, interface lag).

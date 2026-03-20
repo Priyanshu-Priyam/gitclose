@@ -1,0 +1,33 @@
+name: generate_recon_workpaper
+description: "Generates a formatted cash reconciliation workpaper in Markdown from balances, matches, timing items, adjustments, and exceptions."
+parameters:
+  - name: bank_balance
+    type: number
+    required: true
+    description: "Closing or as-of bank balance used on the workpaper."
+  - name: gl_balance
+    type: number
+    required: true
+    description: "Closing or as-of GL balance used on the workpaper."
+  - name: matched_items
+    type: array
+    required: true
+    description: "Matched bank/GL pairs or summary rows to include in the reconciliation."
+  - name: timing_items
+    type: array
+    required: true
+    description: "Outstanding deposits, payments in transit, or other timing differences."
+  - name: adjustments
+    type: array
+    required: true
+    description: "Proposed or posted book-side adjustments affecting the recon."
+  - name: exceptions
+    type: array
+    required: true
+    description: "Exception records or placeholders requiring follow-up."
+returns:
+  type: object
+  properties:
+    - name: workpaper
+      type: string
+      description: "Full reconciliation workpaper as a Markdown string."

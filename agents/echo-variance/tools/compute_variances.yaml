@@ -1,0 +1,115 @@
+name: compute_variances
+description: >
+  Aligns actual and budget P&L arrays, normalizes revenue to management-positive presentation,
+  computes budget variances ($ and %) and optional YoY movements, and flags lines crossing
+  commentary and detailed-analysis thresholds. Implements Echo sign rules from SOUL.md.
+
+parameters:
+  - name: actuals
+    type: array
+    required: true
+    description: >
+      Array of actual P&L line objects (typically from query_actuals.lines). Each object must
+      include account_id, category, and either amount_management or amount_gl for Echo to normalize.
+
+  - name: budget
+    type: array
+    required: true
+    description: >
+      Array of budget line objects (typically from query_budget.lines) keyed by account_id with
+      amount_budget in management convention.
+
+  - name: threshold_pct
+    type: number
+    required: true
+    description: >
+      Percentage threshold for flagged commentary (e.g. 5 for RULES.md #6). Engine may also use
+      this for escalation cross-checks against agent.yaml.
+
+  - name: threshold_amount
+    type: number
+    required: true
+    description: >
+      Absolute currency threshold for flagged commentary (e.g. 50000 for AUD). Uses entity currency.
+
+  - name: detail_threshold_pct
+    type: number
+    required: false
+    default: 10
+    description: Percent threshold triggering detailed analysis (RULES.md #7).
+
+  - name: detail_threshold_amount
+    type: number
+    required: false
+    default: 100000
+    description: Absolute amount threshold for detailed analysis (RULES.md #7).
+
+  - name: prior_actuals
+    type: array
+    required: false
+    description: >
+      Optional prior-year lines (query_prior_period.lines) for YoY $ and % on each account.
+
+returns:
+  type: object
+  properties:
+    - name: variances
+      type: array
+      description: Per-account variance records for commentary generation and validation hooks.
+      items:
+        type: object
+        properties:
+          - name: account_id
+            type: string
+            description: Chart of accounts code.
+          - name: account_name
+            type: string
+            description: Resolved display name.
+          - name: category
+            type: string
+            description: revenue, cogs, opex, other_income, tax, etc.
+          - name: actual_management
+            type: number
+            description: Management-normalized actual amount (revenue positive).
+          - name: budget_management
+            type: number
+            description: Budget amount in management convention.
+          - name: variance_dollar
+            type: number
+            description: >
+              Signed dollar variance per Echo rules: expense uses budget−actual; revenue uses
+              |actual|−|budget| on normalized positives.
+          - name: variance_pct
+            type: number
+            description: >
+              Variance as percent of budget (or prior year for YoY-only lines when budget missing),
+              with guardrails for near-zero denominators.
+          - name: favorable
+            type: boolean
+            description: True if variance_dollar is favorable for the natural account type.
+          - name: material_for_commentary
+            type: boolean
+            description: True if |variance_pct| > threshold_pct OR |variance_dollar| > threshold_amount.
+          - name: material_for_detail
+            type: boolean
+            description: True if |variance_pct| > detail_threshold_pct OR |variance_dollar| > detail_threshold_amount.
+          - name: yoy_dollar
+            type: number
+            required: false
+            description: Prior-year movement in management convention when prior_actuals supplied.
+          - name: yoy_pct
+            type: number
+            required: false
+            description: YoY percent change with denominator guards.
+
+    - name: rollup
+      type: object
+      description: >
+        Totals for revenue, COGS, gross margin, operating expenses, operating profit — actual,
+        budget, variance — to seed executive summary tables.
+
+    - name: diagnostics
+      type: object
+      required: false
+      description: >
+        Unmatched accounts, mapping warnings, and normalization notes for audit trail.

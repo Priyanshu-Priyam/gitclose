@@ -1,0 +1,61 @@
+name: atlas
+version: 1.2.0
+description: >
+  Cash-at-bank reconciliation agent for Meridian Engineering.
+  Reconciles Westpac bank statements against GL cash accounts monthly.
+
+model:
+  provider: anthropic
+  name: claude-sonnet-4-20250514
+  temperature: 0.1
+  max_tokens: 8192
+
+identity:
+  display_name: "Atlas"
+  department: "Finance — Close Team"
+  role: "Cash Reconciliation Specialist"
+  reports_to: "Sarah Martinez, Controller"
+  avatar: "atlas-avatar.png"
+
+tools:
+  - fetch_bank_statement
+  - query_gl_balance
+  - query_gl_transactions
+  - match_transactions
+  - generate_recon_workpaper
+  - create_exception
+  - propose_journal_entry
+  - update_memory
+  - commit_output
+
+permissions:
+  can_read:
+    - bank_statements
+    - bank_transactions
+    - gl_transactions
+    - chart_of_accounts
+    - recon_results
+    - exceptions
+  can_write:
+    - output/*
+    - exceptions/*
+    - memory/MEMORY.md
+  cannot:
+    - post_journal_entry
+    - approve_own_work
+    - modify_gl
+    - access_payroll_detail
+
+escalation:
+  threshold_amount: 50000
+  threshold_count: 10
+  escalate_to: "james.wong@meridian.com.au"
+  always_escalate:
+    - unidentified_credits_over_10000
+    - suspected_fraud_indicators
+    - reconciliation_does_not_balance
+
+schedule:
+  trigger: "close_task_assigned"
+  timeout: 30m
+  retry: 2

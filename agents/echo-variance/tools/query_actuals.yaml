@@ -1,0 +1,73 @@
+name: query_actuals
+description: >
+  Retrieves profit-and-loss actuals for a Meridian Engineering entity for a single reporting period.
+  Returns line-level amounts aligned to the management chart of accounts (account id, name, category,
+  and raw GL sign as stored). Consumers must apply Echo sign-normalization rules before presenting
+  revenue to management.
+
+parameters:
+  - name: entity_id
+    type: string
+    required: true
+    description: >
+      Reporting entity identifier (legal entity or consolidation node), e.g. MERIDIAN-AU-PARENT
+      or subsidiary code per the master data registry.
+
+  - name: period
+    type: string
+    required: true
+    description: >
+      Reporting period key. Typically YYYY-MM for calendar month close; must match Meridian’s
+      fiscal calendar mapping when fiscal periods are used.
+
+returns:
+  type: object
+  properties:
+    - name: entity_id
+      type: string
+      description: Echoed entity identifier for traceability.
+
+    - name: period
+      type: string
+      description: Echoed reporting period.
+
+    - name: currency
+      type: string
+      description: Presentation currency for all amounts (e.g. AUD).
+
+    - name: lines
+      type: array
+      description: P&L lines posted and closed for the period.
+      items:
+        type: object
+        properties:
+          - name: account_id
+            type: string
+            description: Chart of accounts code (e.g. 4000-001).
+          - name: account_name
+            type: string
+            description: Official COA description.
+          - name: category
+            type: string
+            description: >
+              High-level grouping — revenue, cogs, opex, other_income, tax, eliminations, etc.
+          - name: amount_gl
+            type: number
+            description: >
+              Signed amount as stored in GL extracts (revenue/income often credit-negative).
+          - name: amount_management
+            type: number
+            description: >
+              Optional pre-normalized management view when the integration layer provides it;
+              if absent, Echo normalizes per SOUL.md.
+          - name: ytd_amount_gl
+            type: number
+            required: false
+            description: Optional year-to-date balance for trend commentary.
+
+    - name: metadata
+      type: object
+      required: false
+      description: >
+        Close status, extract timestamp, source system batch id, and any FX policy flags
+        applicable to the period.

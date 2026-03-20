@@ -1,0 +1,69 @@
+name: query_prior_period
+description: >
+  Retrieves prior-year same-period P&L actuals for YoY commentary. Given a reporting period,
+  resolves the equivalent period in the immediately preceding fiscal year per Meridian’s fiscal
+  calendar (handles fiscal year boundaries and 53-week years when configured).
+
+parameters:
+  - name: entity_id
+    type: string
+    required: true
+    description: Reporting entity identifier; must align with current-period actuals queries.
+
+  - name: period
+    type: string
+    required: true
+    description: >
+      Current reporting period key (e.g. YYYY-MM). The tool computes and returns prior-year
+      same month / same fiscal period actuals.
+
+returns:
+  type: object
+  properties:
+    - name: entity_id
+      type: string
+      description: Echoed entity identifier.
+
+    - name: current_period
+      type: string
+      description: The requested (current) reporting period.
+
+    - name: prior_year_period
+      type: string
+      description: >
+        Resolved prior-year comparison period actually queried (may differ in label when fiscal
+        mapping adjusts for calendar shifts).
+
+    - name: currency
+      type: string
+      description: Presentation currency for prior-year amounts.
+
+    - name: lines
+      type: array
+      description: Prior-year P&L actual lines at account granularity.
+      items:
+        type: object
+        properties:
+          - name: account_id
+            type: string
+            description: Chart of accounts code.
+          - name: account_name
+            type: string
+            description: Account description as of prior year (historical label if renamed).
+          - name: category
+            type: string
+            description: revenue, cogs, opex, other_income, tax, etc.
+          - name: amount_gl
+            type: number
+            description: Signed GL amount for the prior-year period.
+          - name: amount_management
+            type: number
+            required: false
+            description: Optional management-normalized amount when provided by integration.
+
+    - name: metadata
+      type: object
+      required: false
+      description: >
+        Fiscal calendar rule applied, restatement flags, and notes if prior year was restated
+        after original filing.

@@ -1,0 +1,9 @@
+[CONTENT SUMMARY — Excel workbook: Westpac Operating Account Reconciliation, January 2025 — REVISED]
+
+Updates from v1: Bank fees posted to GL ($42). Cheque #8841 cleared — removed from unpresented list. Deposit in transit #2 confirmed cleared 31 Jan — cleared.
+
+Unidentified $5,650 credit still open; James added comment "Possible Telstra / utilities — need subledger."
+
+GL vs bank now $5,650.00 variance (unchanged).
+
+Footer note: "v2 REVISED — 4 Feb after matching more cleared items. DO NOT USE v1 — superseded."

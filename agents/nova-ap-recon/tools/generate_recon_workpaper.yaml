@@ -1,0 +1,130 @@
+name: generate_recon_workpaper
+description: >
+  Produces a production-ready AP vs. GL Trade Payables reconciliation workpaper in Markdown
+  for Controller review. Incorporates control totals, matched invoice-to-GL ties, cutoff analysis,
+  and exception summaries suitable for attachment to the month-end close package.
+
+parameters:
+  - name: ap_balance
+    type: number
+    required: true
+    description: >
+      AP control total (functional currency) after query_ap_subledger population definition —
+      must tie to the invoice listing attached to the workpaper.
+
+  - name: gl_balance
+    type: number
+    required: true
+    description: >
+      GL closing balance for 2000-001 (or scoped account) for the same entity and period as ap_balance.
+
+  - name: matched
+    type: array
+    required: true
+    description: >
+      Matched pairs or grouped rows after reference verification. Each item should include
+      invoice reference, vendor, amounts, AP and GL dates, and GL journal identifiers.
+    items:
+      type: object
+      properties:
+        - name: invoice_ref
+          type: string
+        - name: vendor_name
+          type: string
+        - name: amount
+          type: number
+        - name: ap_entry_date
+          type: string
+        - name: gl_posting_date
+          type: string
+        - name: gl_journal_id
+          type: string
+        - name: match_confidence
+          type: string
+          description: HIGH when reference + cent-exact amount; lower only with documented human waiver.
+
+  - name: cutoff_errors
+    type: array
+    required: true
+    description: >
+      Rows where invoice reference ties AP to GL but posting periods differ, or where
+      within-period date lag exceeds policy. Include quarter-end and year-end flags per item.
+    items:
+      type: object
+      properties:
+        - name: invoice_ref
+          type: string
+        - name: vendor_name
+          type: string
+        - name: amount
+          type: number
+        - name: ap_period
+          type: string
+        - name: gl_period
+          type: string
+        - name: crosses_quarter_end
+          type: boolean
+        - name: crosses_year_end
+          type: boolean
+        - name: proposed_treatment
+          type: string
+          description: Narrative only — Nova does not post adjustments.
+
+  - name: exceptions
+    type: array
+    required: true
+    description: >
+      Unmatched AP, unmatched GL suggestions, potential duplicates, and other REVIEW_REQUIRED items.
+      Should align with create_exception records where tickets were created.
+    items:
+      type: object
+      properties:
+        - name: exception_id
+          type: string
+        - name: exception_type
+          type: string
+        - name: invoice_ref
+          type: string
+        - name: vendor_name
+          type: string
+        - name: amount
+          type: number
+        - name: status
+          type: string
+        - name: assigned_to
+          type: string
+        - name: narrative
+          type: string
+
+  - name: entity_id
+    type: string
+    required: false
+    description: Meridian entity code for the workpaper header.
+
+  - name: period
+    type: string
+    required: false
+    description: Period YYYY-MM for the workpaper header.
+
+  - name: preparer
+    type: string
+    required: false
+    default: "Nova (AP Reconciliation Agent)"
+    description: Display name on the workpaper signature block (human reviewers add final sign-off).
+
+returns:
+  type: object
+  properties:
+    - name: workpaper
+      type: string
+      description: Full reconciliation workpaper as a Markdown string (tables, headings, variance summary).
+
+    - name: attachment_manifest
+      type: array
+      description: >
+        Suggested filenames for exports (e.g. nova-ap-recon-{entity}-{period}.md,
+        exceptions-{period}.json) for commit_output.
+
+    - name: variance_summary
+      type: object
+      description: Echo of computed AP vs GL variance and components used in the document body.
