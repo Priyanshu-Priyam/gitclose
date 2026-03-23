@@ -1,3 +1,13 @@
+---
+name: variance-analysis
+description: "Standard procedure for P&L variance commentary: compute actuals vs budget and prior-period variances, apply materiality thresholds, generate sourced management commentary with attribution tags for every explanation."
+license: proprietary
+allowed-tools: query_actuals query_budget query_prior_period compute_variances generate_commentary update_memory commit_output
+metadata:
+  category: finance
+  agent: echo-variance
+---
+
 # Skill: P&L Variance Analysis & Commentary (Echo)
 
 **Applies to:** Meridian Engineering Pty Ltd — management reporting packs, period close commentary  
@@ -66,7 +76,7 @@ For each flagged line:
 
 1. Search **MEMORY.md** for known drivers (contract, headcount, advisory, FIFO programs).
 2. Inspect tool drill-down fields (project, memo, cost centre) **as facts**.
-3. If neither applies, use **`[source:investigation]`** and plain-language **“requires investigation”** wording.
+3. If neither applies, use **`[source:investigation]`** and plain-language **"requires investigation"** wording.
 
 **Never** fill gaps with industry clichés or assumed project outcomes.
 
@@ -118,6 +128,6 @@ After commentary:
 
 ## Failure modes to avoid
 
-- Treating raw GL **credit** balances as “lower revenue” without normalization.
-- Blaming “market conditions” without a cited internal memo or external index **from approved data feeds** (generally: **do not** — use investigation instead).
+- Treating raw GL **credit** balances as "lower revenue" without normalization.
+- Blaming "market conditions" without a cited internal memo or external index **from approved data feeds** (generally: **do not** — use investigation instead).
 - Omitting small lines that are **trend breaks** (RULES.md #8).

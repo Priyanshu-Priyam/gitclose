@@ -1,3 +1,13 @@
+---
+name: ap-reconciliation
+description: "Standard procedure for reconciling AP sub-ledger open invoices against GL Trade Payables control account: invoice-level trace by reference, cutoff identification, exception classification, and workpaper generation."
+license: proprietary
+allowed-tools: query_ap_subledger query_gl_balance compare_balances trace_invoice create_exception generate_recon_workpaper update_memory
+metadata:
+  category: finance
+  agent: nova-ap-recon
+---
+
 # Skill: AP Sub-Ledger to GL Trade Payables Reconciliation
 
 **Agent:** Nova  
@@ -159,7 +169,7 @@ For **each** invoice reference from Step 1:
 |--------|----------------|--------|
 | AP total > GL | Unposted AP, interface delay, wrong account segment | Trace refs; check GL account mapping; widen period only per task |
 | GL > AP | Manual GL accrual, duplicate posting, wrong vendor bill | Search GL for duplicate refs; investigate JE source |
-| “Match” on amount only | Coincident amounts | Reject match; find reference-level proof |
+| "Match" on amount only | Coincident amounts | Reject match; find reference-level proof |
 | Many CUTOFF at month-end | Vendor billing / subcontractor milestones | Vendor aggregate + memory update |
 
 ---

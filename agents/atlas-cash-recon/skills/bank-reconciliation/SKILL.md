@@ -1,3 +1,13 @@
+---
+name: bank-reconciliation
+description: "Standard procedure for reconciling bank statements against GL cash accounts: transaction matching by reference, amount, and counterparty; exception classification; memory-assisted resolution of recurring items."
+license: proprietary
+allowed-tools: fetch_bank_statement match_transactions query_gl_balance query_gl_transactions create_exception propose_journal_entry generate_recon_workpaper update_memory
+metadata:
+  category: finance
+  agent: atlas-cash-recon
+---
+
 # Skill: Bank Reconciliation
 
 ## Standard Reconciliation Procedure

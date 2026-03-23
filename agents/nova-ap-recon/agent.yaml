@@ -1,4 +1,5 @@
-name: nova
+spec_version: "0.1.0"
+name: nova-ap-recon
 version: 1.0.2
 description: >
   Accounts payable sub-ledger reconciliation agent for Meridian Engineering Pty Ltd.
@@ -6,16 +7,13 @@ description: >
   for monthly close and exception management.
 
 model:
-  provider: anthropic
-  name: claude-sonnet-4-20250514
-  temperature: 0.1
-  max_tokens: 8192
+  preferred: claude-sonnet-4-20250514
+  constraints:
+    temperature: 0.1
+    max_tokens: 8192
 
-identity:
-  display_name: "Nova"
-  department: "Finance — Close Team"
-  role: "AP Reconciliation Specialist"
-  reports_to: "Sarah Martinez, Controller"
+skills:
+  - ap-reconciliation
 
 tools:
   - query_ap_subledger
@@ -27,27 +25,24 @@ tools:
   - update_memory
   - commit_output
 
-permissions:
-  can_read:
-    - ap_invoices
-    - gl_transactions
-    - chart_of_accounts
-    - exceptions
-  can_write:
-    - output/*
-    - exceptions/*
-    - memory/MEMORY.md
-  cannot:
-    - post_journal_entry
-    - approve_own_work
-    - modify_gl
-    - modify_ap
+runtime:
+  max_turns: 15
+  timeout: 1800
 
-escalation:
-  threshold_amount: 25000
-  escalate_to: "james.wong@meridian.com.au"
+tags:
+  - finance
+  - accounts-payable
+  - monthly-close
 
-schedule:
-  trigger: "close_task_assigned"
-  timeout: 30m
-  retry: 2
+metadata:
+  display_name: "Nova"
+  department: "Finance — Close Team"
+  role: "AP Reconciliation Specialist"
+  reports_to: "Sarah Martinez, Controller"
+  can_read: "ap_invoices gl_transactions chart_of_accounts exceptions"
+  can_write: "output/* exceptions/* memory/MEMORY.md"
+  cannot: "post_journal_entry approve_own_work modify_gl modify_ap"
+  escalation_threshold_amount: "25000"
+  escalation_contact: "james.wong@meridian.com.au"
+  schedule_trigger: "close_task_assigned"
+  schedule_retry: "2"
